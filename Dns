@@ -1,0 +1,39 @@
+// Description: This program takes either a domain name or an IP address as input
+// and performs a DNS lookup to return its corresponding IP or host name.
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+
+public class DNSLookup {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a domain name or IP address: ");
+        String input = scanner.nextLine().trim();
+
+        try {
+            InetAddress inetAddress;
+
+            // Check if input starts with a digit → assume it's an IP address
+            if (Character.isDigit(input.charAt(0))) {
+                // Reverse lookup: IP → Domain Name
+                inetAddress = InetAddress.getByName(input);
+                System.out.println("\nReverse DNS Lookup:");
+                System.out.println("IP Address: " + input);
+                System.out.println("Host Name : " + inetAddress.getHostName());
+            } else {
+                // Forward lookup: Domain Name → IP
+                inetAddress = InetAddress.getByName(input);
+                System.out.println("\nForward DNS Lookup:");
+                System.out.println("Host Name : " + input);
+                System.out.println("IP Address: " + inetAddress.getHostAddress());
+            }
+
+        } catch (UnknownHostException e) {
+            System.out.println("ERROR: Unable to resolve '" + input + "'");
+        }
+
+        scanner.close();
+    }
+}
